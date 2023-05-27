@@ -69,6 +69,8 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
+
+
     @GetMapping("/users/{userId}")
     public ResponseEntity<?> getUser(@PathVariable("userId") String userId){
 
