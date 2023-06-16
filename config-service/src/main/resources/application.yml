@@ -7,9 +7,16 @@ server:
 spring:
   application:
     name: config-service
-#
-#  profiles:
-#    active: native
+
+
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+
+  profiles:
+    active: native
 #  cloud:
 #    config:
 #      server:
@@ -21,9 +28,17 @@ spring:
   cloud:
     config:
       server:
+        native:
+          search-locations: file:///Users/for/Desktop/minwoofile/infrun MSA/spring cloud config
         git:
-          uri: file:///Users/for/Desktop/minwoofile/infrun MSA/spring cloud config
-          ## uri: 깃주소
+#          uri: file:///Users/for/Desktop/minwoofile/infrun MSA/spring cloud config
+           uri: https://github.com/minwoo1999/spring-cloud-config.git
           ## private 일 경우
           ##username: [your name]
           ##password: [your password]
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,busrefresh
