@@ -34,15 +34,19 @@ public class UserServiceImpl implements UserService {
     BCryptPasswordEncoder bCryptPasswordEncoder;
     Environment env;
 
+    RestTemplate restTemplate;
+
 
     CircuitBreakerFactory circuitBreakerFactory;
 
     public UserServiceImpl(UserRepository userRepository,
                            BCryptPasswordEncoder bCryptPasswordEncoder,
-                           Environment env) {
+                           Environment env,
+                           RestTemplate restTemplate) {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.env = env;
+        this.restTemplate=restTemplate;
     }
 
     @Override
@@ -68,12 +72,12 @@ public class UserServiceImpl implements UserService {
 
         UserDto userDto = new ModelMapper().map(userEntity, UserDto.class);
 
-        // Using as rest template
-//        String orderUrl = String.format(env.getProperty("order_service.url"), userId);
-//        ResponseEntity<List<ResponseOrder>> orderListResponse = restTemplate.exchange(orderUrl, HttpMethod.GET, null,
-//                new ParameterizedTypeReference<List<ResponseOrder>>() {
-//        });
-//        List<ResponseOrder> orderList = orderListResponse.getBody();
+         //Using as rest template
+        String orderUrl = String.format(env.getProperty("order_service.url"), userId);
+        ResponseEntity<List<ResponseOrder>> orderListResponse = restTemplate.exchange(orderUrl, HttpMethod.GET, null,
+                new ParameterizedTypeReference<List<ResponseOrder>>() {
+        });
+        List<ResponseOrder> orderList = orderListResponse.getBody();
 
         // Using as feign client
         // feign exception handling
@@ -92,7 +96,7 @@ public class UserServiceImpl implements UserService {
 //                throwable -> new ArrayList<>()
 //        );
 //        log.info("After called orders microservice");
-//        userDto.setOrders(orderList);
+        userDto.setOrders(orderList);
 
         return userDto;
     }

@@ -22,11 +22,11 @@ public class UserServiceApplication {
         return new BCryptPasswordEncoder();
     }
 
-//    @Bean
-//    @LoadBalanced
-//    public RestTemplate getRestTemplate() {
-//        return new RestTemplate();
-//    }
+    @Bean
+    @LoadBalanced
+    public RestTemplate getRestTemplate() {
+        return new RestTemplate();
+    }
 //
 //    @Bean
 //    public Logger.Level feignLoggerLevel() {
